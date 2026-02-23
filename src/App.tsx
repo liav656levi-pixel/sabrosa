@@ -4,7 +4,12 @@ import {
   Plus, 
   Star,
   X,
-  ChevronRight
+  Menu,
+  Phone,
+  Instagram,
+  MapPin,
+  ChevronRight,
+  Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -73,6 +78,7 @@ export default function App() {
   const [customizingProduct, setCustomizingProduct] = useState<Product | null>(null);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
   const [showCart, setShowCart] = useState(false);
+  const [showNav, setShowNav] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -146,14 +152,43 @@ export default function App() {
     <div className="min-h-screen bg-[#FAF9F6] text-slate-900 font-sans" dir="rtl">
       {/* Header */}
       <header className={`fixed top-0 inset-x-0 z-50 glass px-6 py-4 flex justify-between items-center transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="flex flex-col items-center mx-auto">
+        <button onClick={() => setShowNav(true)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+          <Menu className="w-6 h-6" />
+        </button>
+        <div className="flex flex-col items-center">
           <h1 className="text-2xl font-black italic leading-none tracking-tighter uppercase">Sabrosa</h1>
           <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#8B4513] mt-1">Artisan Bakery</span>
         </div>
+        <div className="w-10" /> {/* Spacer for symmetry */}
       </header>
 
+      {/* Navigation Drawer */}
+      <AnimatePresence>
+        {showNav && (
+          <div className="fixed inset-0 z-[100] flex">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowNav(false)} />
+            <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} className="relative bg-white w-full max-w-xs h-full p-10 flex flex-col shadow-2xl">
+              <button onClick={() => setShowNav(false)} className="self-end p-2 mb-12"><X /></button>
+              <nav className="space-y-8">
+                <a href="#hero" onClick={() => setShowNav(false)} className="block text-2xl font-serif italic font-black">דף הבית</a>
+                <a href="#about" onClick={() => setShowNav(false)} className="block text-2xl font-serif italic font-black">הסיפור שלנו</a>
+                <a href="#menu" onClick={() => setShowNav(false)} className="block text-2xl font-serif italic font-black">התפריט שלנו</a>
+                <a href="#contact" onClick={() => setShowNav(false)} className="block text-2xl font-serif italic font-black">צרו קשר</a>
+              </nav>
+              <div className="mt-auto space-y-4">
+                <div className="flex gap-4">
+                  <Instagram className="w-5 h-5 text-[#8B4513]" />
+                  <Phone className="w-5 h-5 text-[#8B4513]" />
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sabrosa Artisan Bakery © 2024</p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Hero */}
-      <section className="pt-28 px-6">
+      <section id="hero" className="pt-28 px-6">
         <div className="relative h-[450px] rounded-[3rem] overflow-hidden shadow-2xl">
           <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGozF64yDtA_fja7KBZ1-FLEehg6jIRZj3F7_IDma9Mfr9OV9Rn2nUGtJ_y3UVBOejoIlPX74JCqluyIE-8KFLiawCHwNalhwtWnUV2OtRCEqDy_LqR4DduwHAbpVLXxgDz-Exnlq24YSlXVje7ymPX-5ahrVlF0pynY1kZiYLU6q8nYViMNBLbVbVApwPjO0h2Gn4lpKpvFR3tTPUpNnVq8VYufjH_QyjhNlg8RqvIoAI4zGn7Kpz0eRpzPYQs8dpkWYYpez1dMHq" className="w-full h-full object-cover scale-105" />
           <div className="absolute inset-0 bg-black/20" />
@@ -169,8 +204,26 @@ export default function App() {
         </div>
       </section>
 
-      {/* Menu */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
+      {/* About Us Section */}
+      <section id="about" className="py-24 px-6 max-w-4xl mx-auto text-center">
+        <h2 className="text-4xl font-serif italic font-black mb-10">הסיפור שלנו</h2>
+        <div className="space-y-6 text-slate-600 text-lg leading-relaxed font-medium italic">
+          <p>
+            הכל התחיל מרצון אמיתי ללחם טוב, כזה שנעשה בלי פשרות ובלי רגשות אשם. רצינו ליצור לחם שעונה על הצרכים של כולם – תערובת קמחים ללא גלוטן, כוסמין עשיר או חיטה מלאה.
+          </p>
+          <p>
+            המחמצת שלנו עוברת תסיסה איטית ומבוקרת של 24 שעות להעמקת הטעמים והמרקם. כל כיכר נאפית בעבודת יד עם המון אהבה, תוך שימוש בקמחי מקור איכותיים בלבד.
+          </p>
+        </div>
+        <div className="mt-12 flex justify-center gap-4">
+          <div className="h-px w-12 bg-[#8B4513]/20 self-center" />
+          <span className="font-serif italic font-bold text-[#8B4513]">Sabrosa</span>
+          <div className="h-px w-12 bg-[#8B4513]/20 self-center" />
+        </div>
+      </section>
+
+      {/* Menu Section */}
+      <section id="menu" className="py-20 px-6 max-w-7xl mx-auto bg-white/50 rounded-[4rem] mb-24">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-serif italic font-black">התפריט שלנו</h2>
           <div className="mt-6 flex justify-center gap-4">
@@ -201,6 +254,60 @@ export default function App() {
           ))}
         </div>
       </section>
+
+      {/* Contact Section */}
+      <footer id="contact" className="bg-[#1A120B] text-white py-24 px-6 rounded-t-[5rem]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
+          <div className="space-y-8">
+            <div className="flex flex-col">
+              <h2 className="text-4xl font-black italic tracking-tighter uppercase">Sabrosa</h2>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B4513]">Artisan Bakery</span>
+            </div>
+            <p className="text-white/50 leading-relaxed italic">
+              אפייה מסורתית, חומרי גלם איכותיים, והמון אהבה בכל כיכר לחם.
+            </p>
+          </div>
+          
+          <div className="space-y-8">
+            <h4 className="text-xl font-serif italic font-black">צרו קשר</h4>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 text-white/70">
+                <Phone className="w-5 h-5 text-[#8B4513]" />
+                <span>055-556-7714</span>
+              </div>
+              <div className="flex items-center gap-4 text-white/70">
+                <Instagram className="w-5 h-5 text-[#8B4513]" />
+                <span>@sabrosa_bakery</span>
+              </div>
+              <div className="flex items-center gap-4 text-white/70">
+                <MapPin className="w-5 h-5 text-[#8B4513]" />
+                <span>האופה 1, תל אביב</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <h4 className="text-xl font-serif italic font-black">שעות פעילות</h4>
+            <div className="space-y-4 text-white/70">
+              <div className="flex justify-between border-b border-white/10 pb-2">
+                <span>א' - ה'</span>
+                <span>08:00 - 20:00</span>
+              </div>
+              <div className="flex justify-between border-b border-white/10 pb-2">
+                <span>יום ו'</span>
+                <span>07:00 - 15:00</span>
+              </div>
+              <div className="flex justify-between text-[#8B4513] font-bold">
+                <span>שבת</span>
+                <span>סגור</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto mt-24 pt-8 border-t border-white/5 text-center text-white/20 text-[10px] font-black uppercase tracking-widest">
+          Sabrosa Artisan Bakery © 2024 | All Rights Reserved
+        </div>
+      </footer>
 
       {/* Cart Button */}
       <button onClick={() => setShowCart(true)} className="fixed bottom-10 left-10 z-50 bg-[#8B4513] text-white p-6 rounded-full shadow-2xl hover:scale-110 transition-transform">
